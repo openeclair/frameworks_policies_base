@@ -66,6 +66,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private AlertDialog mDialog;
 
     private ToggleAction mSilentModeToggle;
+    private ToggleAction mVibrateModeToggle;
     private ToggleAction mAirplaneModeOn;
 
     private MyAdapter mAdapter;
@@ -139,6 +140,27 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
         };
 
+        mVibrateModeToggle = new ToggleAction(
+                R.drawable.ic_lock_silent_mode,
+                R.drawable.ic_lock_silent_mode_off,
+                R.string.global_action_toggle_silent_mode,
+                R.string.global_action_silent_mode_on_status,
+                R.string.global_action_silent_mode_off_status) {
+
+            void onToggle(boolean on) {
+                mAudioManager.setRingerMode(on ? AudioManager.RINGER_MODE_VIBRATE
+                        : AudioManager.RINGER_MODE_NORMAL);
+            }
+
+            public boolean showDuringKeyguard() {
+                return true;
+            }
+
+            public boolean showBeforeProvisioning() {
+                return false;
+            }
+        };
+
         mAirplaneModeOn = new ToggleAction(
                 R.drawable.ic_lock_airplane_mode,
                 R.drawable.ic_lock_airplane_mode_off,
@@ -182,6 +204,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         mItems = Lists.newArrayList(
                 // silent mode
                 mSilentModeToggle,
+		// vibrate mode
+		mVibrateModeToggle,
                 // next: airplane mode
                 mAirplaneModeOn,
                 // next: reboot
@@ -241,10 +265,17 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     }
 
     private void prepareDialog() {
+	// Silent Mode
         final boolean silentModeOn =
-                mAudioManager.getRingerMode() != AudioManager.RINGER_MODE_NORMAL;
+                mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
         mSilentModeToggle.updateState(
                 silentModeOn ? ToggleAction.State.On : ToggleAction.State.Off);
+	// Vibrate Mode
+        final boolean vibrateModeOn =
+                mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+        mVibrateModeToggle.updateState(
+                vibrateModeOn ? ToggleAction.State.On : ToggleAction.State.Off);
+
         mAirplaneModeOn.updateState(mAirplaneState);
         mAdapter.notifyDataSetChanged();
         if (mKeyguardShowing) {
