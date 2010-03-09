@@ -141,11 +141,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         };
 
         mVibrateModeToggle = new ToggleAction(
-                R.drawable.ic_lock_silent_mode,
-                R.drawable.ic_lock_silent_mode_off,
-                R.string.global_action_toggle_silent_mode,
-                R.string.global_action_silent_mode_on_status,
-                R.string.global_action_silent_mode_off_status) {
+                R.drawable.ic_lock_vibrate_mode,
+                R.drawable.ic_lock_vibrate_mode_off,
+                R.string.global_action_toggle_vibrate_mode,
+                R.string.global_action_vibrate_mode_on_status,
+                R.string.global_action_vibrate_mode_off_status) {
 
             void onToggle(boolean on) {
                 mAudioManager.setRingerMode(on ? AudioManager.RINGER_MODE_VIBRATE
