@@ -97,7 +97,7 @@ public class RecentApplicationsDialog extends Dialog implements OnClickListener 
         mButtons[5] = findViewById(com.android.internal.R.id.button6);
         mButtons[6] = findViewById(com.android.internal.R.id.button7);
         mButtons[7] = findViewById(com.android.internal.R.id.button8);
-        mButtons[8] = findViewById(com.android.internal.R.id.button9)
+        mButtons[8] = findViewById(com.android.internal.R.id.button9);
         mNoAppsText = findViewById(com.android.internal.R.id.no_applications_message);
 
         for (View b : mButtons) {
